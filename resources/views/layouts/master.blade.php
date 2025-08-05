@@ -19,6 +19,24 @@
     <link rel="icon" href="{{ asset('icon.png') }}" type="image/x-icon" />
     <link rel="shortcut icon" href="{{ asset('icon.png') }}" type="image/x-icon" />
 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+    <!-- DataTables JS -->
+    {{-- <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- DataTables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script> --}}
+
+
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -29,9 +47,16 @@
     <!-- Tabler Plugins -->
     <link href="{{ asset('dist/css/demo.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('dist/libs/selectize/dist/css/selectize.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map { height: 600px; width: 100%; }
+    </style>
 
+    
 
     @stack('css')
+    @yield('head')
 </head>
 
 <body class="antialiased">
@@ -58,9 +83,8 @@
     <script src="{{ asset('dist/libs/selectize/dist/js/standalone/selectize.min.js') }}"></script>
     <script src="{{ asset('dist/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
 
-
     <!-- Tabler Core -->
-    <script src="{{ asset('backend/dist/js/tabler.min.js') }}"></script>
+    <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
 
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -110,6 +134,7 @@
         });
     </script>
     @stack('js')
+    @yield('scripts')
 </body>
 
 </html>

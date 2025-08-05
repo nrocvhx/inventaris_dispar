@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Vehicle;
+use App\Models\VehicleImage;
+use App\Models\Pegawai;
+use App\Models\Category;
 use App\Traits\HasImage;
 use App\Enums\VehicleStatus;
 use Illuminate\Http\Request;
@@ -13,79 +16,78 @@ use Illuminate\Support\Facades\Storage;
 class VehicleController extends Controller
 {
     use HasImage;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        $vehicles = Vehicle::paginate(10);
-        return view('admin.vehicle.index', compact('vehicles'));
+        $pegawai = Pegawai::get();
+        $categories = Category::get();
+        $kendaraan = Vehicle::with('pegawai')->paginate(10); 
+        return view('admin.kendaraan.index', compact('kendaraan', 'categories', 'pegawai'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(VehicleRequest $request)
     {
-        $image = $this->uploadImage($request, $path = 'public/vehicles/', $name = 'image');
+        $vehicle = Vehicle::create($request->all());
 
-        Vehicle::create([
-            'name' => $request->name,
-            'image' => $image->hashName(),
-            'type' => $request->type,
-            'merk' => $request->merk,
-            'license_plat' => $request->license_plat,
-            'condition' => $request->condition ? 1 : 0,
-            'status' => VehicleStatus::Active,
-        ]);
+        if ($request->hasFile('gambar')) {
+            $images = $this->uploadMultipleImages($request->file('gambar'), 'public/vehicles/');
+            foreach ($images as $image) {
+                VehicleImage::create([
+                    'vehicle_id' => $vehicle->id,
+                    'image_path' => $image
+                ]);
+            }
+        }
+
+        // if ($request->hasFile('gambar')) {
+        //     $images = $this->uploadMultipleImages($request->file('gambar'), 'public/vehicles/');
+        //     foreach ($images as $image) {
+        //         VehicleImage::create([
+        //             'vehicle_id' => $request->id,
+        //             'image_path' => $image
+        //         ]);
+        //     }
+        // }
 
         return back()->with('toast_success', 'Kendaraan Berhasil Ditambahkan');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(VehicleRequest $request, Vehicle $vehicle)
     {
-        $image = $this->uploadImage($request, $path = 'public/vehicels/', $name = 'image');
+        $image = $this->uploadImage($request, 'public/vehicles/', 'gambar');
 
         $vehicle->update([
-            'name' => $request->name,
-            'type' => $request->type,
+            'kode_barang' => $request->kode_barang,
+            'nup' => $request->nup,
+            'jenis_barang' => $request->jenis_barang,
             'merk' => $request->merk,
-            'license_plat' => $request->license_plat,
-            'condition' => $request->condition ? 1 : 0,
+            'id_kategori' => $request->id_kategori,
+            'id_pegawai' => $request->id_pegawai,
+            'nopol' => $request->nopol,
+            'norang' => $request->norang,
+            'nomes' => $request->nomes,
+            'tahun_pembuatan' => $request->tahun_pembuatan,
+            'bpkb' => $request->bpkb,
+            'pajak' => $request->pajak,
+            'kondisi' => $request->kondisi,
+            'keterangan' => $request->keterangan,            
         ]);
 
-        if($request->file($name)){
-            $this->updateImage(
-                $path = 'public/vehicles/', $name = 'image', $data = $vehicle, $url = $image->hashName()
-            );
-        }
+        // dd($request->bpkb);
 
         return back()->with('toast_success', 'Kendaraan Berhasil Diubah');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function show(Vehicle $vehicle)
+    {        
+
+        return view('admin.kendaraan.show', compact('vehicle'));;
+    }
+
     public function destroy(Vehicle $vehicle)
     {
+        Storage::disk('local')->delete('public/vehicles/' . basename($vehicle->gambar));
         $vehicle->delete();
-
-        Storage::disk('local')->delete('public/vehicles/'. basename($vehicle->image));
 
         return back()->with('toast_success', 'Kendaraan Berhasil Dihapus');
     }

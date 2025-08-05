@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Models\Vehicle;
+use App\Models\Pegawai;
+use App\Models\Inventaris;
+use App\Models\Supplier;
 use App\Models\Rent;
 use App\Models\Order;
 use App\Enums\OrderStatus;
@@ -21,16 +25,14 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $user = Auth::id();
+        $pegawai = Pegawai::all();
+        $kendaraan = Vehicle::all();
+        $inventaris = Inventaris::with('pegawai', 'kendaraan')->paginate(10);
 
-        $vehicles = Rent::with('user', 'vehicle')->where('user_id', $user)->get();
+        // Uncomment to debug the data
+        // dd($inventaris);
 
-        $products = Order::with('user')->where('user_id', $user)->get();
 
-        $transactions = Transaction::with('details', 'user')->where('user_id', $user)->get();
-
-        $orders = Order::with('user')->where('user_id', $user)->where('status', OrderStatus::Pending)->get();
-
-        return view('customer.dashboard', compact('vehicles', 'products', 'orders', 'transactions'));
+        return view('customer.dashboard', compact('pegawai', 'kendaraan', 'inventaris'));
     }
 }

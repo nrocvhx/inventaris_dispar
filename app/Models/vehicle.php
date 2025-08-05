@@ -2,32 +2,35 @@
 
 namespace App\Models;
 
-use App\Models\Rent;
-use App\Traits\HasSlug;
-use App\Enums\VehicleStatus;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Vehicle extends Model
 {
-    use HasFactory, HasSlug;
+    use HasFactory;
 
-    protected $guarded = [];
-
-    protected $casts = [
-        'status' => VehicleStatus::class
+    protected $fillable = [
+        'kode_barang', 'nup', 'jenis_barang', 'merk', 'id_kategori', 'nopol', 
+        'norang', 'nomes', 'tahun_pembuatan', 'bpkb', 'pajak', 'keterangan', 'kondisi'
     ];
 
-    public function rents()
+    public function pegawai()
     {
-        return $this->hasMany(Rent::class);
+        return $this->belongsTo(Pegawai::class, 'id_pegawai');
     }
 
-    protected function image(): Attribute
+    public function kategori()
     {
-        return Attribute::make(
-            get: fn($image) => asset('storage/vehicles/' . $image),
-        );
+        return $this->belongsTo(Category::class, 'id_kategori');
+    }
+
+    public function inventaris()
+    {
+        return $this->hasMany(Inventaris::class, 'id_barang');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(VehicleImage::class);
     }
 }

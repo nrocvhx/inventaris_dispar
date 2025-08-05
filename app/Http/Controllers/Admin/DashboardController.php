@@ -8,6 +8,8 @@ use App\Models\Product;
 use App\Models\Vehicle;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Models\Pegawai;
+use App\Models\Inventaris;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\TransactionDetail;
@@ -32,7 +34,11 @@ class DashboardController extends Controller
 
         $products = Product::count();
 
+        $pegawai = Pegawai::count();
+
         $customers = User::count();
+
+        $inventaris = Inventaris::count();
 
         $transactions = TransactionDetail::sum('quantity');
 
@@ -63,6 +69,6 @@ class DashboardController extends Controller
             $total[] = '';
         }
 
-        return view('admin.dashboard', compact('categories', 'vehicles', 'suppliers', 'products', 'customers', 'transactions', 'transactionThisMonth', 'productsOutStock', 'orders', 'label', 'total'));
+        return view('admin.dashboard', compact('categories', 'pegawai', 'inventaris', 'vehicles', 'suppliers', 'products', 'customers', 'transactions', 'transactionThisMonth', 'productsOutStock', 'orders', 'label', 'total'));
     }
 }

@@ -25,14 +25,13 @@ class SettingController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'department' => 'required',
         ]);
 
         $password = !empty($request->password) ? bcrypt($request->password) : $user->password;
 
         $user->update([
             'name' => $request->name,
-            'department' => $request->department,
+            'notelp' => $request->notelp,
             'email' => $request->email,
             'password' => $password,
         ]);

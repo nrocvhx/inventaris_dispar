@@ -3,6 +3,6 @@
 namespace App\Enums;
 
 enum VehicleStatus : string {
-    case Active = 'Tersedia';
-    case Out    = 'Kendaraan Sedang Digunakan';
+    case Baik = 'Baik';
+    case Ringan    = 'Rusak Ringan';
 }

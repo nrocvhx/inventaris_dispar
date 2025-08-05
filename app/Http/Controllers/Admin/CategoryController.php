@@ -41,7 +41,7 @@ class CategoryController extends Controller
 
         Category::create([
             'name' => $request->name,
-            'image' => $image->hashName(),
+            // 'image' => $image->hashName(),
         ]);
 
         return back()->with('toast_success', 'Kategori Berhasil Ditambahkan');
@@ -62,11 +62,11 @@ class CategoryController extends Controller
             'name' => $request->name,
         ]);
 
-        if($request->file($name)){
-            $this->updateImage(
-                $path = 'public/categories/', $name = 'image', $data = $category, $url = $image->hashName()
-            );
-        }
+        // if($request->file($name)){
+        //     $this->updateImage(
+        //         $path = 'public/categories/', $name = 'image', $data = $category, $url = $image->hashName()
+        //     );
+        // }
 
         return back()->with('toast_success', 'Kategori Berhasil Diubah');
     }

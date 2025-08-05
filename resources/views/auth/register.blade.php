@@ -49,25 +49,17 @@
                                 {{ $message }}
                             </div>
                         @enderror
-                    </div>
+                    </div>                    
                     <div class="mb-3">
-                        <label class="form-label">Seksi</label>
-                        <select class="form-select @error('department') is-invalid @enderror" name="department">
-                            <option value="" selected>Silahkan Pilih</option>
-                            <option value="Umum">Umum</option>
-                            <option value="Hukum dan Informasi">Hukum dan Informasi</option>
-                            <option value="Lelang">Lelang</option>
-                            <option value="Kepatuhan Internal">Kepatuhan Internal</option>
-                            <option value="Pengelola Kekayaan Negara">Pengelola Kekayaan Negara</option>
-                            <option value="Piutang Negara">Piutang Negara</option>
-                            <option value="Penilaian">Penilaian</option>
-                        </select>
-                        @error('department')
+                        <label class="form-label">Nomor Telepon</label>
+                        <input type="notelp" class="form-control @error('notelp') is-invalid @enderror"
+                            placeholder="masukan nomor telepon anda" name="notelp">
+                        @error('notelp')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                         @enderror
-                    </div>
+                    </div>                    
                     <div class="mb-3">
                         <label class="form-label">Kata Sandi</label>
                         <input type="password" class="form-control @error('password') is-invalid @enderror"

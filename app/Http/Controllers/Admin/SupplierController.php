@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Supplier;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupplierRequest;
+use App\Http\Requests\PegawaiRequest;
 
 class SupplierController extends Controller
 {
@@ -16,9 +18,9 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::paginate(10);
+        $pegawai = Pegawai::paginate(10);
 
-        return view('admin.supplier.index', compact('suppliers'));
+        return view('admin.supplier.index', compact('pegawai'));
     }
 
     /**
@@ -27,9 +29,9 @@ class SupplierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SupplierRequest $request)
+    public function store(PegawaiRequest $request)
     {
-        Supplier::create($request->all());
+        Pegawai::create($request->all());
 
         return back()->with('toast_success', 'Supplier Berhasil Ditambahkan');
     }
@@ -41,9 +43,11 @@ class SupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SupplierRequest $request, Supplier $supplier)
+    public function update(PegawaiRequest $request, $id)
     {
-        $supplier->update($request->all());
+
+        $pegawais = Pegawai::findOrFail($id);
+        $pegawais->update($request->validated());
 
         return back()->with('toast_success', 'Supplier Berhasil Diubah');
     }
@@ -54,10 +58,11 @@ class SupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $supplier)
+    public function destroy($id)
     {
-        $supplier->delete();
+        $pegawai = Pegawai::findOrFail($id);
+        $pegawai->delete();
 
-        return back()->with('toast_success', 'Supplier Berhasil Dihapus');
+        return back()->with('toast_success', 'Pegawai Berhasil Dihapus');
     }
 }

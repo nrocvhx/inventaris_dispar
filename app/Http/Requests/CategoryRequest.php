@@ -26,12 +26,12 @@ class CategoryRequest extends FormRequest
         if(request()->isMethod('POST')){
             $data = [
                 'name' => 'required|unique:categories',
-                'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+                // 'image' => 'required|mimes:png,jpg,jpeg|max:2048',
             ];
         }elseif(request()->isMethod('PUT')){
             $data = [
                 'name' => 'required','unique:categories,name'.$this->id,
-                'image' => 'mimes:png,jpg,jpeg|max:2048',
+                // 'image' => 'mimes:png,jpg,jpeg|max:2048',
             ];
         }
 

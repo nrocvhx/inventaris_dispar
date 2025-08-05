@@ -6,39 +6,31 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class VehicleRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
-        if(request()->isMethod('POST')){
-            $data = [
-                'name' => 'required',
-                'image' => 'required|mimes:png,jpg,jpeg|max:2048',
-                'type' => 'required',
-                'merk' => 'required',
-                'license_plat' => 'required',
-            ];
-        }elseif(request()->isMethod('PUT')){
-            $data = [
-                'name' => 'required',
-                'image' => 'mimes:png,jpg,jpeg|max:2048',
-                'type' => 'required',
-                'merk' => 'required',
-                'license_plat' => 'required',
-            ];
+        $data = [
+            'kode_barang' => 'required',
+            'nup' => 'required',
+            'jenis_barang' => 'required',
+            'merk' => 'required',
+            'id_kategori' => 'required',
+            'nopol' => 'required',
+            'norang' => 'required',
+            'nomes' => 'required',
+            'tahun_pembuatan' => 'required',
+            'bpkb' => 'required',
+            'pajak' => 'required',
+            'kondisi' => 'required',
+            'keterangan' => 'required',
+        ];
+
+        if ($this->isMethod('POST') || $this->isMethod('PUT')) {
+            $data['gambar.*'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
         }
 
         return $data;

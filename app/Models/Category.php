@@ -24,4 +24,9 @@ class Category extends Model
             get: fn($image) => asset('storage/categories/' . $image),
         );
     }
+
+    public function kendaraans()
+    {
+        return $this->hasMany(Vehicle::class);
+    }
 }

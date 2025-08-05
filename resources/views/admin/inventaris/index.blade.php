@@ -3,8 +3,8 @@
 @section('content')
     <x-container>
         <div class="row">
-            <div class="col-lg-16">
-                <x-card title="DAFTAR KENDARAAN" class="card-body p-0">
+            <div class="col-lg-8">
+                <x-card title="DAFTAR INVENTARIS" class="card-body p-0">
                     <x-table>
                         <table id="supplierTable" class="table table-bordered table-striped">
                             <thead class="thead-dark">
@@ -55,6 +55,28 @@
                                             <a href="{{ route('admin.vehicle.show', $inven->kendaraan->id) }}">
                                                 <button class="btn btn-success btn-sm fa fa-eye"></button>
                                             </a>
+                                            @can('update-inventaris')
+                                                <x-button-modal :id="$inven->kendaraan->id" title="" icon="edit" style="" class="btn btn-info btn-sm" />
+                                                <x-modal :id="$inven->kendaraan->id" title="Edit - {{ $inven->kendaraan->kode_barang }}">
+                                                    <form action="{{ route('admin.inventaris.update', $inven->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" name="id_barang" value="{{ $inven->kendaraan->id  }}">
+                                                        <x-select title="Pengguna/Penanggung Jawab" name="id_pegawai">
+                                                            <option value>Silahkan Pilih</option>
+                                                            @foreach ($pegawai as $pegawais)
+                                                                <option value="{{ $pegawais->id }}">{{ $pegawais->nama }}</option>
+                                                            @endforeach
+                                                        </x-select>
+                                                        <x-input name="nomor" type="text" title="Nomor" placeholder="Nomor" :value="$inven->nomor" />
+                                                        <x-input name="tanggal" type="text" title="Tanggal" placeholder="Tanggal" :value="$inven->tanggal" />
+                                                        <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
+                                                    </form>
+                                                </x-modal>
+                                            @endcan
+                                            @can('delete-inventaris')
+                                                <x-button-delete :id="$inven->id" :url="route('admin.inventaris.destroy', $inven->id)" title="" class="btn btn-danger btn-sm" />
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach
@@ -64,6 +86,29 @@
                 </x-card>
             </div>
 
+            <div class="col-lg-4">
+                <x-card title="TAMBAH INVENTARIS" class="card-body">
+                    <form action="{{ route('admin.inventaris.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <x-select title="Kode Barang" name="id_barang">
+                            <option value>Silahkan Pilih</option>
+                            @foreach ($kendaraan as $kendaraans)
+                                <option value="{{ $kendaraans->id }}">{{ $kendaraans->kode_barang }}</option>
+                            @endforeach
+                        </x-select>
+                        <x-select title="Pengguna/Penanggung Jawab" name="id_pegawai">
+                            <option value>Silahkan Pilih</option>
+                            @foreach ($pegawai as $pegawais)
+                                <option value="{{ $pegawais->id }}">{{ $pegawais->nama }}</option>
+                            @endforeach
+                        </x-select>
+                        <x-input name="nomor" type="text" title="Nomor" placeholder="Nomor" :value="old('nomor')" />
+                        <x-input name="tanggal" type="text" title="Tanggal" placeholder="Tanggal" :value="old('tanggal')" />
+                        <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
+                        <x-button-link title="Kembali" icon="arrow-left" :url="route('admin.inventaris.index')" class="btn btn-dark" style="mr-1" />
+                    </form>
+                </x-card>
+            </div>
         </div>
     </x-container>
 @endsection

@@ -29,6 +29,11 @@
     <!-- Tabler Plugins -->
     <link href="{{ asset('dist/css/demo.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('dist/libs/selectize/dist/css/selectize.css') }}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map { height: 600px; width: 100%; }
+    </style>
 
 
     @stack('css')

@@ -10,7 +10,6 @@
                             <th>#</th>
                             <th>Nama</th>
                             <th>Email</th>
-                            <th>Department</th>
                             <th>Role</th>
                             <th>Aksi</th>
                         </tr>
@@ -21,7 +20,6 @@
                                 <td>{{ $i + $users->firstItem() }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->department }}</td>
                                 <td>
                                     @foreach ($user->roles as $role)
                                         {{ $role->name }}
@@ -47,6 +45,10 @@
                                             <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
                                         </form>
                                     </x-modal>
+
+                                    <x-button-delete :id="$user->id"
+                                        :url="route('admin.user.destroy', $user->id)" title=""
+                                        class="btn btn-danger btn-sm" />
                                 </td>
                             </tr>
                         @endforeach

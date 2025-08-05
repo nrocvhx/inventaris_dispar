@@ -36,4 +36,11 @@ class UserController extends Controller
 
         return back()->with('toast_success', 'Role User Berhasil Diubah');
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return back()->with('toast_success', 'User Berhasil Dihapus');
+    }
 }
